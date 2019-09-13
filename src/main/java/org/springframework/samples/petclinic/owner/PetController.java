@@ -51,8 +51,8 @@ class PetController {
     @Value("${tag_Name}")
     private String tagName;
 
-    @Value("${isConfigAnable}")
-    private String isConfigAnable;
+    @Value("${isConfigEnable}")
+    private Boolean isConfigEnable;
 
     public PetController(PetRepository pets, OwnerRepository owners) {
         this.pets = pets;
@@ -81,7 +81,7 @@ class PetController {
 
     @GetMapping("/pets/new")
     public String initCreationForm(Owner owner, ModelMap model) {
-        if(isConfigAnable.equals("true")){
+        if(isConfigEnable){
             Span span = ElasticApm.currentSpan();
             span.addLabel("_tag_appName", tagAppName);
             span.addLabel("_tag_Name", tagName);
@@ -95,7 +95,7 @@ class PetController {
 
     @PostMapping("/pets/new")
     public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {
-        if(isConfigAnable.equals("true")){
+        if(isConfigEnable){
             Span span = ElasticApm.currentSpan();
             span.addLabel("_tag_appName", tagAppName);
             span.addLabel("_tag_Name", tagName);
@@ -116,7 +116,7 @@ class PetController {
 
     @GetMapping("/pets/{petId}/edit")
     public String initUpdateForm(@PathVariable("petId") int petId, ModelMap model) {
-        if(isConfigAnable.equals("true")){
+        if(isConfigEnable){
             Span span = ElasticApm.currentSpan();
             span.addLabel("_tag_appName", tagAppName);
             span.addLabel("_tag_Name", tagName);
@@ -129,7 +129,7 @@ class PetController {
 
     @PostMapping("/pets/{petId}/edit")
     public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model) {
-        if(isConfigAnable.equals("true")){
+        if(isConfigEnable){
             Span span = ElasticApm.currentSpan();
             span.addLabel("_tag_appName", tagAppName);
             span.addLabel("_tag_Name", tagName);

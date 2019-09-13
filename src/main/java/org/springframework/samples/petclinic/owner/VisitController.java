@@ -56,8 +56,8 @@ class VisitController {
     @Value("${tag_Name}")
     private String tagName;
 
-    @Value("${isConfigAnable}")
-    private String isConfigAnable;
+    @Value("${isConfigEnable}")
+    private Boolean isConfigEnable;
 
     public VisitController(VisitRepository visits, PetRepository pets) {
         this.visits = visits;
@@ -92,7 +92,7 @@ class VisitController {
     // Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is called
     @GetMapping("/owners/*/pets/{petId}/visits/new")
     public String initNewVisitForm(@PathVariable("petId") int petId, Map<String, Object> model) {
-        if(isConfigAnable.equals("true")){
+        if(isConfigEnable){
             Span span = ElasticApm.currentSpan();
             span.addLabel("_tag_appName", tagAppName);
             span.addLabel("_tag_Name", tagName);
@@ -104,7 +104,7 @@ class VisitController {
     // Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is called
     @PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
     public String processNewVisitForm(@Valid Visit visit, BindingResult result) {
-        if(isConfigAnable.equals("true")){
+        if(isConfigEnable){
             Span span = ElasticApm.currentSpan();
             span.addLabel("_tag_appName", tagAppName);
             span.addLabel("_tag_Name", tagName);

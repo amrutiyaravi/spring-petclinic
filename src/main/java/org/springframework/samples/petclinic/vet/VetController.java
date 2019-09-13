@@ -49,13 +49,13 @@ class VetController {
     @Value("${tag_Name}")
     private String tagName;
 
-    @Value("${isConfigAnable}")
-    private String isConfigAnable;
+    @Value("${isConfigEnable}")
+    private Boolean isConfigEnable;
 
     @GetMapping("/vets.html")
     public String showVetList(Map<String, Object> model) {
         // line to support stacktrace
-        if(isConfigAnable.equals("true")){
+        if(isConfigEnable){
             Span span = ElasticApm.currentSpan();
             span.addLabel("_tag_appName", tagAppName);
             span.addLabel("_tag_Name", tagName);
@@ -72,7 +72,7 @@ class VetController {
     @GetMapping({ "/vets" })
     public @ResponseBody Vets showResourcesVetList() {
         // line to support stacktrace
-        if(isConfigAnable.equals("true")){
+        if(isConfigEnable){
             Span span = ElasticApm.currentSpan();
             span.addLabel("_tag_appName", tagAppName);
             span.addLabel("_tag_Name", tagName);

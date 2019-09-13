@@ -41,12 +41,12 @@ class CrashController {
     @Value("${tag_Name}")
     private String tagName;
 
-    @Value("${isConfigAnable}")
-    private String isConfigAnable;
+    @Value("${isConfigEnable}")
+    private Boolean isConfigEnable;
 
     @GetMapping("/oups")
     public String triggerException() {
-        if(isConfigAnable.equals("true")){
+        if(isConfigEnable){
             Span span = ElasticApm.currentSpan();
             span.addLabel("_tag_appName", tagAppName);
             span.addLabel("_tag_Name", tagName);

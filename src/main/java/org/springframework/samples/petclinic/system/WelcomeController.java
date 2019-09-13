@@ -22,10 +22,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import co.elastic.apm.api.CaptureSpan;
 import co.elastic.apm.api.ElasticApm;
 import co.elastic.apm.api.Span;
-import co.elastic.apm.api.Transaction;
 
 @Controller
 @Component
@@ -37,12 +35,12 @@ class WelcomeController {
     @Value("${tag_Name}")
     private String tagName;
 
-    @Value("${isConfigAnable}")
-    private String isConfigAnable;
+    @Value("${isConfigEnable}")
+    private Boolean isConfigEnable;
 
     @GetMapping("/")
     public String welcome() {
-        if(isConfigAnable.equals("true")){
+        if(isConfigEnable){
             Span span = ElasticApm.currentSpan();
             span.addLabel("_tag_appName", tagAppName);
             span.addLabel("_tag_Name", tagName);
